@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ActionCollection version="2" name="Scripts">
+    <Actions category="Scripts">
+        <text>New Layer Alpha Inheritance</text>
+
+        <Action name="new_layer_alpha_inheritance">
+            <icon>transparency-enabled</icon>
+            <text>Toggle New Layer Alpha Inheritance</text>
+            <whatsThis>Toggles whether new layers have alpha inheritance activated.</whatsThis>
+            <toolTip>Toggles whether new layers have alpha inheritance activated.</toolTip>
+            <iconText>New Layer Alpha Inheritance</iconText>
+            <activationFlags>1</activationFlags>
+            <activationConditions>0</activationConditions>
+            <shortcut></shortcut>
+            <isCheckable>true</isCheckable>
+            <statusTip></statusTip>
+        </Action>
+    </Actions>
+</ActionCollection>
