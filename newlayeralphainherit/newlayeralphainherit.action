@@ -3,7 +3,7 @@
     <Actions category="Scripts">
         <text>New Layer Alpha Inheritance</text>
 
-        <Action name="new_layer_alpha_inheritance">
+        <Action name="dninosores.new_layer_alpha_inheritance">
             <icon>transparency-enabled</icon>
             <text>Toggle New Layer Alpha Inheritance</text>
             <whatsThis>Toggles whether new layers have alpha inheritance activated.</whatsThis>

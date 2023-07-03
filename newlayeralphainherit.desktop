@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Service
 ServiceTypes=Krita/PythonPlugin
-X-KDE-Library=new_layer_alpha_inherit
+X-KDE-Library=newlayeralphainherit
 X-Python-2-Compatible=false
-X-Krita-Manual=new_layer_alpha_inherit.txt
+X-Krita-Manual=newlayeralphainherit.txt
 Name=Toggle New Layer Alpha Inheritance
 Comment=Adds shortcut to toggle whether new layers have alpha inheritance
