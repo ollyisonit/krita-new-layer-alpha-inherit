@@ -5,6 +5,6 @@ Adds a button to the toolbar to toggle whether new layers are created with alpha
 
 ## Installation
 
-Download [newlayeralphainherit.zip](http://github.com/dninosores/krita-export-region/releases/latest/download/krita-export-region.zip) and install by going to `Tools > Scripts > Import Python Plugin From File...` in Krita and selecting the zip file. Once the plugin is installed, you can manage shortcuts in the shortcuts menu under `Scripts > Export Region`. 
+Download [newlayeralphainherit.zip](http://github.com/dninosores/krita-new-layer-alpha-inherit/releases/latest/download/newlayeralphainherit.zip) and install by going to `Tools > Scripts > Import Python Plugin From File...` in Krita and selecting the zip file.
 
 If you're having issues, more information on plugin installation can be found [here](https://docs.krita.org/en/user_manual/python_scripting/install_custom_python_plugin.html).
