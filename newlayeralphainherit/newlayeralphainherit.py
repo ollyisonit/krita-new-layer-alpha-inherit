@@ -6,6 +6,10 @@ from functools import partial
 
 TOGGLE_INHERITANCE_ACTION = "dninosores.new_layer_alpha_inheritance"
 
+WRAP_AROUND_TEXT = "Wrap Around Mode"
+
+VERTICAL_MIRROR_TEXT = "Vertical Mirror Tool"
+
 NEW_LAYER_ACTIONS = [
     "add_new_clone_layer",
     "add_new_file_layer",
@@ -18,6 +22,11 @@ NEW_LAYER_ACTIONS = [
 
 
 class NewLayerAlphaInheritExtension(Extension):
+    tool_button = None
+
+    up_palette = None
+    down_palette = None
+
     def __init__(self, parent):
         super().__init__(parent)
 
@@ -28,6 +37,9 @@ class NewLayerAlphaInheritExtension(Extension):
         msg = "with"
         if not isOn:
             msg = "without"
+
+        if self.tool_button:
+            self.tool_button.setChecked(isOn)
 
         Application.activeWindow().activeView().showFloatingMessage(
             f"New layers will now be created {msg} alpha inheritance enabled.",
@@ -42,19 +54,96 @@ class NewLayerAlphaInheritExtension(Extension):
             "New Layer Alpha Inheritance",
             "layer",
         )
+        toggle_inheritance_action.setIcon(Krita.instance().icon("transparency-enabled"))
         toggle_inheritance_action.triggered.connect(self.toggle_inheritance)
         QTimer.singleShot(0, self.bind_events)
 
     def on_new_layer(self):
-        print("NEW LAYER CREATED")
         if Application.action(TOGGLE_INHERITANCE_ACTION).isChecked():
             QTimer.singleShot(
                 0, lambda: Application.action("toggle_layer_inherit_alpha").trigger()
             )
 
+    def get_wraparound_button(self):
+        for item, depth in IterHierarchy(Application.activeWindow().qwindow()):
+            try:
+                if item.text() == WRAP_AROUND_TEXT:
+                    return item
+            except:
+                pass
+
+    def get_mirror_button(self):
+        for item, depth in IterHierarchy(Application.activeWindow().qwindow()):
+            try:
+                if item.text() == VERTICAL_MIRROR_TEXT:
+                    return item
+            except:
+                pass
+
+    def on_button_toggled(self, isOn):
+        Application.action(TOGGLE_INHERITANCE_ACTION).setChecked(isOn)
+        if not isOn:
+            if self.up_palette:
+                self.tool_button.setPalette(self.up_palette)
+        else:
+            if self.down_palette:
+                self.tool_button.setPalette(self.down_palette)
+
     def bind_events(self):
         for action in NEW_LAYER_ACTIONS:
             Application.action(action).triggered.connect(self.on_new_layer)
+        wraparound_button = self.get_wraparound_button()
+        widget_group = wraparound_button.parent()
+        self.tool_button = QToolButton(widget_group)
+        layout = None
+        for sibling in self.tool_button.parent().children():
+            if "BoxLayout" in str(sibling):
+                layout = sibling
+        # self.tool_button.addAction(Application.action(TOGGLE_INHERITANCE_ACTION))
+        self.tool_button.setCheckable(True)
+        self.tool_button.toggled.connect(self.on_button_toggled)
+        self.tool_button.setText("New layer alpha inheritance")
+        self.tool_button.setToolTip("New layer alpha inheritance")
+        self.tool_button.setBaseSize(wraparound_button.baseSize())
+        self.tool_button.setAutoFillBackground(wraparound_button.autoFillBackground())
+        self.tool_button.setBackgroundRole(wraparound_button.backgroundRole())
+        self.tool_button.setForegroundRole(wraparound_button.foregroundRole())
+        self.tool_button.setContentsMargins(wraparound_button.contentsMargins())
+        self.tool_button.setContextMenuPolicy(wraparound_button.contextMenuPolicy())
+        self.tool_button.setGeometry(wraparound_button.geometry())
+        self.tool_button.setMaximumSize(wraparound_button.maximumSize())
+        self.tool_button.setMinimumSize(wraparound_button.minimumSize())
+        self.tool_button.setStyle(wraparound_button.style())
+        self.tool_button.setSizePolicy(wraparound_button.sizePolicy())
+        self.tool_button.setToolButtonStyle(wraparound_button.toolButtonStyle())
+        self.tool_button.setPalette(wraparound_button.palette())
+        self.tool_button.setGraphicsEffect(wraparound_button.graphicsEffect())
+        self.tool_button.setAutoRaise(wraparound_button.autoRaise())
+
+        mirror_button = self.get_mirror_button()
+        mirror_button_checked = mirror_button.isChecked()
+        mirror_button.setChecked(False)
+        self.up_palette = mirror_button.palette()
+        mirror_button.setChecked(True)
+        self.down_palette = mirror_button.palette()
+        mirror_button.setChecked(mirror_button_checked)
+
+        # self.tool_button.setStyleSheet(wraparound_button.styleSheet())
+
+        # self.tool_button.text = "New layer alpha inheritance"
+        # self.tool_button.toolTip = self.tool_button.text
+        # self.tool_button.baseSize = wraparound_button.baseSize
+        # self.tool_button.focusPolicy = wraparound_button.focusPolicy
+        # self.tool_button.font = wraparound_button.font
+        # self.tool_button.frameGeometry = wraparound_button.frameGeometry
+        # self.tool_button.frameSize = wraparound_button.frameSize
+        # self.tool_button.geometry = wraparound_button.geometry
+        # self.tool_button.height = wraparound_button.height
+        # self.tool_button.iconSize = wraparound_button.iconSize
+        # self.tool_button.width = wraparound_button.width
+
+        self.tool_button.setIcon(Krita.instance().icon("transparency-enabled"))
+        layout.addWidget(self.tool_button)
         # for item, depth in IterHierarchy(Application.activeWindow().qwindow()):
         #     # print_branch(item, depth)
         #     if "paintopbox" in item.objectName():
