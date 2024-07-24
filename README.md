@@ -1,4 +1,7 @@
 # Krita New Layer Alpha Inheritance
+
+![](icon.jpg)
+
 Adds a button to the toolbar to toggle whether new layers are created with alpha inheritance enabled. The option can also be toggled in the Layer menu, or bound to a hotkey under Scripts > New Layer Alpha Inheritance.
 
 ![image](./resources/button_image.PNG)
